@@ -1,0 +1,2 @@
+﻿Django==3.*
+python-dotenv==0.15.*
