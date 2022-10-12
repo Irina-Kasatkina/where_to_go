@@ -16,10 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from blank_page import views
+from places import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.show_blank_page),
+    path('', views.show_places_page),
 ]

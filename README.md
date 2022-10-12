@@ -2,7 +2,7 @@
 
 Интерактивная карта Москвы с видами активного отдыха от блогера Артёма.
 
-![Скриншот](screenshots/site.png)
+![&#x41A;&#x443;&#x434;&#x430; &#x43F;&#x43E;&#x439;&#x442;&#x438;](.gitbook/assets/site.png)
 
 ## Запуск
 
@@ -20,7 +20,7 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 -->
-Запустите разработческий сервер
+Перейдите в папку where_to_go и запустите разработческий сервер
 
 ```
 python manage.py runserver

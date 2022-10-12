@@ -138,6 +138,5 @@ dmypy.json
 cython_debug/
 
 # This project
-start.bat
+frontend/
 media/
-notes.md
