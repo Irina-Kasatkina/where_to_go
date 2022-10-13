@@ -33,5 +33,6 @@ class Image(models.Model):
     )
 
     class Meta:
+        ordering = ['number']
         verbose_name = 'картинка'
         verbose_name_plural = 'картинки'
