@@ -17,3 +17,21 @@ class Place(models.Model):
         ordering = ['title']
         verbose_name = 'место'
         verbose_name_plural = 'места'
+
+
+class Image(models.Model):
+    """Картинка места."""
+
+    number = models.IntegerField('порядковый номер')
+    image = models.ImageField('картинка')
+
+    place = models.ForeignKey(
+        Place,
+        related_name='images',
+        verbose_name='место',
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        verbose_name = 'картинка'
+        verbose_name_plural = 'картинки'

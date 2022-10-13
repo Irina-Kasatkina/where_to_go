@@ -1,2 +1,4 @@
 ﻿Django==3.*
 python-dotenv==0.15.*
+
+Pillow==8.0.*
