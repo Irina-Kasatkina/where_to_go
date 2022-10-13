@@ -41,7 +41,8 @@
   <script id="places-geojson" type="application/json">
     {
       "type": "FeatureCollection",
-      "features": [{% for place in places %}
+      "features": [
+        {% for place in places %}
           {
             "type": "Feature",
             "geometry": {
@@ -53,7 +54,9 @@
               "placeId": "{{place.id}}",
               "detailsUrl": "{% static '/places/moscow_legends.json' %}"
             }
-          }{%if not forloop.last%},{%endif%}{% endfor %}]
+          }
+          {%if not forloop.last%},{%endif%}
+        {% endfor %}]
     }
   </script>
 
