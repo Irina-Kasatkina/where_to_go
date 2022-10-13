@@ -8,4 +8,3 @@ def show_places_page(request):
     context = {}
     rendered_page = template.render(context, request)
     return HttpResponse(rendered_page)
-# Create your views here.
