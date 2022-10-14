@@ -21,9 +21,10 @@ class ImageInline(SortableTabularInline):
 @admin.register(Place)
 class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
     inlines = [ImageInline]    
-    fields = ('title', 'short_description', 'long_description', 'longitude', 'latitude',)
+    fields = ('title', 'short_description', 'long_description', 'longitude', 'latitude', 'id',)
     list_display = ('title',)
     list_display_links = ('title',)
+    readonly_fields = ('id',)
     search_fields = ('title',)
 
 
