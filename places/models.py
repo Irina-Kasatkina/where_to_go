@@ -22,7 +22,7 @@ class Place(models.Model):
 class Image(models.Model):
     """Фотография локации."""
 
-    number = models.IntegerField('позиция')
+    number = models.PositiveIntegerField('сортировка', db_index=True, default=0)
     image = models.ImageField('картинка')
 
     place = models.ForeignKey(

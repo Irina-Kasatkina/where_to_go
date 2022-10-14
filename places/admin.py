@@ -2,12 +2,14 @@ from django.contrib import admin
 from django.utils.html  import format_html
 from django.utils.safestring import mark_safe
 
+from adminsortable2.admin import SortableAdminBase, SortableAdminMixin, SortableTabularInline
+
 from .models import Image, Place
 
 
-class ImageInline(admin.TabularInline):
+class ImageInline(SortableTabularInline):
     model = Image
-    fields = ('image', 'preview', 'number',)
+    fields = ('number', 'image', 'preview',)
     readonly_fields = ('preview',)
 
     def preview(self, obj):
@@ -17,7 +19,7 @@ class ImageInline(admin.TabularInline):
 
 
 @admin.register(Place)
-class PlaceAdmin(admin.ModelAdmin):
+class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
     inlines = [ImageInline]    
     fields = ('title', 'short_description', 'long_description', 'longitude', 'latitude',)
     list_display = ('title',)
@@ -26,7 +28,7 @@ class PlaceAdmin(admin.ModelAdmin):
 
 
 @admin.register(Image)
-class ImageAdmin(admin.ModelAdmin):
+class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     fields = ('place', 'number', 'image', 'preview',)
     list_display = ('number', 'place',)
     list_display_links = ('number', 'place',)
