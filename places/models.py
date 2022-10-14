@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Place(models.Model):
-    """Место."""
+    """Локация."""
 
     title = models.CharField('заголовок', max_length=50, db_index=True, unique=True)
     short_description = models.TextField('короткое описание')
@@ -15,14 +15,14 @@ class Place(models.Model):
 
     class Meta:
         ordering = ['title']
-        verbose_name = 'место'
-        verbose_name_plural = 'места'
+        verbose_name = 'локация'
+        verbose_name_plural = 'локации'
 
 
 class Image(models.Model):
-    """Картинка места."""
+    """Фотография локации."""
 
-    number = models.IntegerField('порядковый номер')
+    number = models.IntegerField('позиция')
     image = models.ImageField('картинка')
 
     place = models.ForeignKey(
@@ -34,5 +34,5 @@ class Image(models.Model):
 
     class Meta:
         ordering = ['number']
-        verbose_name = 'картинка'
-        verbose_name_plural = 'картинки'
+        verbose_name = 'фотография'
+        verbose_name_plural = 'фотографии'
