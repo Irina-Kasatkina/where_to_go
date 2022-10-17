@@ -40,6 +40,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split()
 # Application definition
 
 INSTALLED_APPS = [
+    'places.apps.PlacesConfig',
     'adminsortable2',
     'tinymce',
     'django.contrib.admin',
@@ -48,7 +49,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'places.apps.PlacesConfig',
 ]
 
 MIDDLEWARE = [
