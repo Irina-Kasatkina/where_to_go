@@ -20,7 +20,6 @@ from django.urls import include, path
 
 from places import views
 
-
 urlpatterns = [
     path('', views.index, name='index'),
     path('places/<int:place_id>/', views.place_details),
