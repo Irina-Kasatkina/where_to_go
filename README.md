@@ -24,7 +24,13 @@
 
 Для запуска сайта вам понадобится Python версии 3.8.
 
-Скачайте код с GitHub. В `cmd` установите зависимости:
+Скачайте код с GitHub. Создайте виртуальное окружение и активируйте его:
+```
+python -m venv venv
+venv/Scripts/activate
+```
+
+Установите зависимости:
 
 ```sh
 pip install -r requirements.txt
@@ -54,6 +60,24 @@ python manage.py runserver
 - `DATABASE_NAME` — имя базы данных, например: `places.sqlite3`.
 - `ALLOWED_HOSTS` — см. [документацию Django](https://docs.djangoproject.com/en/3.1/ref/settings/#allowed-hosts).
 
+## Загрузка в базу данных из json-файлов
+
+Для загрузки данных из json-файлов выполните следующую команду:
+```
+python manage.py load_place <список_url_json_файлов>
+```
+где `<список_url_json_файлов>` нужно заменить на список url json-файлов, разделённых пробелами. Например:
+```
+python manage.py load_place https://some.website.com/example1.json https://some.website.com/example2.json
+```
+Пример json-файла вы можете найти в папке `examples/`
+
+## Источники
+
+Frontend для сайта взят [отсюда](https://github.com/devmanorg/where-to-go-frontend/). 
+
+Тестовые данные можно найти на [Kudago](https://kudago.com/msk/).
+
 ## Цели проекта
 
-Код написан в учебных целях — для курса по Python и backend-разработке на сайте [Devman](https://dvmn.org). Frontend для сайта взят [отсюда](https://github.com/devmanorg/where-to-go-frontend/).
+Код написан в учебных целях — для курса по Python и backend-разработке на сайте [Devman](https://dvmn.org). 
