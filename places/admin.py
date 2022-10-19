@@ -7,14 +7,18 @@ from adminsortable2.admin import SortableAdminBase, SortableAdminMixin, Sortable
 from .models import Image, Place
 
 
+def get_preview(image_url, max_height=200):
+    return format_html(mark_safe(f'<img src="{image_url}" style="max-height: {max_height}px;">'))
+
+
 class ImageInline(SortableTabularInline):
     model = Image
     fields = ('number', 'image', 'preview',)
     readonly_fields = ('preview',)
 
     def preview(self, obj):
-        if obj.image:
-            return format_html(mark_safe(f'<img src="{obj.image.url}" style="max-height: 200px;">'))
+        return get_preview(obj.image.url)
+
     preview.short_description = 'Предпросмотр'
 
 
@@ -36,11 +40,11 @@ class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     readonly_fields = ('preview',)
 
     def preview(self, obj):
-        if obj.image:
-            return format_html(mark_safe(f'<img src="{obj.image.url}" style="max-height: 200px;">'))
+        return get_preview(obj.image.url)
+
     preview.short_description = 'Предпросмотр'
 
     def small_preview(self, obj):
-        if obj.image:
-            return format_html(mark_safe(f'<img src="{obj.image.url}" style="max-height: 50px;">'))
+        return get_preview(obj.image.url, max_height=50)
+
     small_preview.short_description = 'Фото'

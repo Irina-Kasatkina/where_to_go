@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import mimetypes
 import os
 from pathlib import Path
 
@@ -19,9 +18,6 @@ from environs import Env
 
 env = Env()
 env.read_env()
-
-mimetypes.add_type('text/css', '.css', True)
-mimetypes.add_type('text/html', '.html', True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
