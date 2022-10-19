@@ -7,9 +7,7 @@ from .models import Place
 def index(request):
     places = Place.objects.all()
 
-    context = {
-        'places': [serialize_place(place) for place in places]
-    }  
+    context = {'places': [serialize_place(place) for place in places]}
     return render(request, 'index.html', context)
 
 
@@ -31,8 +29,10 @@ def place_details(request, place_id):
         'imgs': images,
         'description_short': place.short_description,
         'description_long': place.long_description,
-        'coordinates': {'lng': place.longitude,
-                        'lat': place.latitude}
+        'coordinates': {
+            'lng': place.longitude,
+            'lat': place.latitude
+        }
     }
     json_dumps_params = {'ensure_ascii': False, 'indent': 4}
     response = JsonResponse(json_payload, json_dumps_params=json_dumps_params)

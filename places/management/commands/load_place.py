@@ -22,11 +22,12 @@ class Command(BaseCommand):
             location_details = response.json()
             place, _ = Place.objects.update_or_create(
                 title=location_details['title'],
-                defaults={'short_description': location_details['description_short'],
-                          'long_description': location_details['description_long'],
-                          'longitude': location_details['coordinates']['lng'],
-                          'latitude': location_details['coordinates']['lat'],
-                          }
+                defaults={
+                    'short_description': location_details['description_short'],
+                    'long_description': location_details['description_long'],
+                    'longitude': location_details['coordinates']['lng'],
+                    'latitude': location_details['coordinates']['lat'],
+                }
             )
             if place:
                 for image_url in location_details['imgs']:
