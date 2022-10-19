@@ -31,7 +31,7 @@ class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
 @admin.register(Image)
 class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     fields = ('place', 'number', 'image', 'preview',)
-    list_display = ('number', 'place',)
+    list_display = ('number', 'id', 'place', 'small_preview',)
     list_display_links = ('number', 'place',)
     readonly_fields = ('preview',)
 
@@ -39,3 +39,8 @@ class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
         if obj.image:
             return format_html(mark_safe(f'<img src="{obj.image.url}" style="max-height: 200px;">'))
     preview.short_description = 'Предпросмотр'
+
+    def small_preview(self, obj):
+        if obj.image:
+            return format_html(mark_safe(f'<img src="{obj.image.url}" style="max-height: 50px;">'))
+    small_preview.short_description = 'Фото'

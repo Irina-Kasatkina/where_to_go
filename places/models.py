@@ -37,3 +37,6 @@ class Image(models.Model):
         ordering = ['number']
         verbose_name = 'фотография'
         verbose_name_plural = 'фотографии'
+
+    def __str__(self):
+        return f'{self.id}. {self.place.title}'
