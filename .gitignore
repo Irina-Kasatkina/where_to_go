@@ -140,3 +140,4 @@ cython_debug/
 # This project
 frontend/
 media/
+static/
