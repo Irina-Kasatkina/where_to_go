@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 
 from .models import Place
 
@@ -7,24 +7,35 @@ from .models import Place
 def index(request):
     places = Place.objects.all()
 
-    context = {'places': [serialize_place(place) for place in places]}
-    return render(request, 'index.html', context)
+    features = []
+    for place in places:
+        feature = {
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [place.longitude, place.latitude]
+            },
+            'properties': {
+                'title': place.title,
+                'placeId': place.id,
+                'detailsUrl': f'places/{place.id}'
+            }
+        }
+        features.append(feature)
 
-
-def serialize_place(place):
-    return {
-        'id': place.id,
-        'title': place.title,
-        'longitude': str(place.longitude),
-        'latitude': str(place.latitude)
+    places_geojson = {
+        'type': 'FeatureCollection',
+        'features': features,
     }
+    context = {'places_geojson': places_geojson}
+    return render(request, 'index.html', context)
 
 
 def place_details(request, place_id):
     place = get_object_or_404(Place, pk=place_id)
 
     images = [image.image.url for image in place.images.all()]
-    json_payload = {
+    response = {
         'title': place.title, 
         'imgs': images,
         'description_short': place.short_description,
@@ -34,6 +45,4 @@ def place_details(request, place_id):
             'lat': place.latitude
         }
     }
-    json_dumps_params = {'ensure_ascii': False, 'indent': 4}
-    response = JsonResponse(json_payload, json_dumps_params=json_dumps_params)
-    return HttpResponse(response, content_type='application/json')
+    return JsonResponse(response)
