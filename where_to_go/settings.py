@@ -14,10 +14,12 @@ import mimetypes
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
+from environs import Env
 
 
-load_dotenv()
+env = Env()
+env.read_env()
+
 mimetypes.add_type('text/css', '.css', True)
 mimetypes.add_type('text/html', '.html', True)
 
@@ -28,14 +30,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.getenv('DEBUG') == 'True')
+DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split()
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+ALLOWED_HOSTS = env.str('ALLOWED_HOSTS').split()
 
 # Application definition
 
@@ -89,8 +89,8 @@ WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ['DATABASE_ENGINE'],
-        'NAME': BASE_DIR / os.environ['DATABASE_NAME'],
+        'ENGINE': env.str('DATABASE_ENGINE'),
+        'NAME': BASE_DIR / env.str('DATABASE_NAME'),
     }
 }
 
