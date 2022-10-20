@@ -29,7 +29,9 @@
 Создайте виртуальное окружение и активируйте его:
 ```
 python -m venv venv
-venv/Scripts/activate
+cd venv/Scripts
+activate
+cd ../..
 ```
 
 Установите зависимости:
