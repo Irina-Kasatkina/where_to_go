@@ -16,29 +16,47 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         for json_url in kwargs['json_urls']:
-            response = requests.get(json_url)
+            place, location_details = None, None
+            try:
+                place, location_details = self.load_place(json_url)
+            except KeyError:
+                continue
+
+            if place:
+                try:
+                    self.load_images(place, location_details)
+                except KeyError:
+                    continue
+
+    @staticmethod
+    def load_place(json_url):
+        response = requests.get(json_url)
+        response.raise_for_status()
+
+        location_details = response.json()
+
+        title = location_details['title']
+        try:
+            Place.objects.get(title=title)
+            return None, None
+        except Place.DoesNotExist:
+            place = Place.objects.create(
+                title=title,
+                short_description=location_details['description_short'],
+                long_description=location_details['description_long'],
+                longitude=location_details['coordinates']['lng'],
+                latitude=location_details['coordinates']['lat']
+            )
+            return place, location_details
+
+    @staticmethod
+    def load_images(place, location_details):
+        images_urls = location_details['imgs']
+        for image_url in images_urls:
+            response = requests.get(image_url)
             response.raise_for_status()
 
-            location_details = response.json()
-            place, _ = Place.objects.update_or_create(
-                title=location_details['title'],
-                defaults={
-                    'short_description': location_details['description_short'],
-                    'long_description': location_details['description_long'],
-                    'longitude': location_details['coordinates']['lng'],
-                    'latitude': location_details['coordinates']['lat'],
-                }
-            )
-            if place:
-                for image_url in location_details['imgs']:
-                    try:
-                        response = requests.get(image_url)
-                        response.raise_for_status()
-                    except (requests.exceptions.HTTPError, requests.exceptions.MissingSchema):
-                        continue
-
-                    image = Image(place=place)
-                    file_name = os.path.basename(urlparse(image_url).path)
-                    content = ContentFile(response.content)
-                    image.image.save(file_name, content, save=True)
-                    image.save()
+            image = Image(place=place)
+            filename = os.path.basename(urlparse(image_url).path)
+            image.image.save(filename, ContentFile(response.content), save=True)
+            image.save()

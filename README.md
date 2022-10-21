@@ -56,7 +56,7 @@ pip install -r requirements.txt
 Пример содержимого файла .env:
 ```
 #
-ALLOWED_HOSTS=127.0.0.1 localhost
+ALLOWED_HOSTS=127.0.0.1,localhost
 DATABASE_ENGINE=django.db.backends.sqlite3
 DATABASE_NAME=db.sqlite3
 DEBUG=True

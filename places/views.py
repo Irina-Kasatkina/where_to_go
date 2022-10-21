@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
+from django.urls import reverse
 
 from .models import Place
 
@@ -7,28 +8,28 @@ from .models import Place
 def index(request):
     places = Place.objects.all()
 
-    features = []
-    for place in places:
-        feature = {
-            'type': 'Feature',
-            'geometry': {
-                'type': 'Point',
-                'coordinates': [place.longitude, place.latitude]
-            },
-            'properties': {
-                'title': place.title,
-                'placeId': place.id,
-                'detailsUrl': f'places/{place.id}'
-            }
+    context = {
+        'places_geojson': {
+            'type': 'FeatureCollection',
+            'features': [create_feature(place) for place in places],
         }
-        features.append(feature)
-
-    places_geojson = {
-        'type': 'FeatureCollection',
-        'features': features,
     }
-    context = {'places_geojson': places_geojson}
     return render(request, 'index.html', context)
+
+
+def create_feature(place):
+    return {
+        'type': 'Feature',
+        'geometry': {
+            'type': 'Point',
+            'coordinates': [place.longitude, place.latitude]
+        },
+        'properties': {
+            'title': place.title,
+            'placeId': place.id,
+            'detailsUrl': reverse('place_details', args=(place.id,))
+        }
+    }
 
 
 def place_details(request, place_id):
