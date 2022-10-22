@@ -1,4 +1,5 @@
 import os
+from hashlib import md5
 from urllib.parse import urlparse
 
 import requests
@@ -47,8 +48,7 @@ class Command(BaseCommand):
             response = requests.get(image_url)
             response.raise_for_status()
 
-            filename = os.path.basename(urlparse(image_url).path)
-            Image.objects.create(
-                place=place,
-                image=ContentFile(response.content, name=filename)
-            )
+            _, fileext = os.path.splitext(urlparse(image_url).path)
+            filename = f'{md5(response.content).hexdigest()}{fileext}'
+            content_file = ContentFile(response.content, name=filename)
+            Image.objects.create(place=place, image=content_file)
