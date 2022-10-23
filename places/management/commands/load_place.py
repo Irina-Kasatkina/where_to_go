@@ -21,8 +21,11 @@ class Command(BaseCommand):
                 place, created, location_details = self.load_place(json_url)
                 if created:
                     self.load_images(place, location_details.get('imgs', []))
-            except KeyError:
-                continue
+            except KeyError as error:
+                self.stdout.write(
+                    self.style.ERROR(f"\nОтсутствует требуемый ключ {error} в json-файле '{json_url}'\n\n")
+                )
+                raise error
 
     @staticmethod
     def load_place(json_url):
@@ -48,7 +51,7 @@ class Command(BaseCommand):
             response = requests.get(image_url)
             response.raise_for_status()
 
-            _, fileext = os.path.splitext(urlparse(image_url).path)
-            filename = f'{md5(response.content).hexdigest()}{fileext}'
-            content_file = ContentFile(response.content, name=filename)
+            _, file_ext = os.path.splitext(urlparse(image_url).path)
+            file_name = f'{md5(response.content).hexdigest()}{file_ext}'
+            content_file = ContentFile(response.content, name=file_name)
             Image.objects.create(place=place, image=content_file)
